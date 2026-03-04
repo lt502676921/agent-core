@@ -51,8 +51,8 @@ export class AgentLoop {
       actor,
       unprocessedToolCalls,
       messages,
-      finishReason,
       copilotRequests,
+      ...(finishReason && { finishReason }),
     };
   }
 
@@ -236,13 +236,13 @@ export class AgentLoop {
     copilotResponse?: CopilotResponse,
   ): Promise<
     | {
-        type: "tool-result-part";
-        payload: ToolResultPart;
-      }
+      type: "tool-result-part";
+      payload: ToolResultPart;
+    }
     | {
-        type: "copilot-request";
-        payload: CopilotRequest;
-      }
+      type: "copilot-request";
+      payload: CopilotRequest;
+    }
   > {
     const input = part.input;
     const executor = this.toolExecutors[part.toolName];
