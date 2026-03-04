@@ -14,5 +14,5 @@ const openrouter = createOpenAICompatible({
 });
 
 export const models = {
-  compactor: openrouter("google/gemini-2.5-flash-lite"),
+  compactor: openrouter("google/gemini-3-flash-preview"),
 };

@@ -3,13 +3,16 @@ import { models } from './llm.js';
 import { SYSTEM_WORKFLOW } from './prompts/system.js';
 import { thinkingExecutor, thinkingTool } from './tools/thinking-tool.js';
 import { randomSessionId } from './utils.js';
+import { webSearch, webSearchExecutor } from './tools/web-search.js';
 
 const toolDefs: AgentLoopOptions['toolDefs'] = {
   thinking: thinkingTool,
+  webSearch,
 };
 
 const toolExecutors: AgentLoopOptions['toolExecutors'] = {
   thinking: thinkingExecutor,
+  webSearch: webSearchExecutor,
 };
 
 // ====== Mock 获取 System 和 Memory 的方法 ======

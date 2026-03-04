@@ -70,6 +70,9 @@ async function main() {
           historyLengthObj = messages.length;
         }
 
+        // 💡 打印当前的上下文内容，压缩的 json
+        console.log(`\n[🔍 调试信息] 当前上下文内容: ${JSON.stringify(messages)}\n`);
+
         // 处理一些非阻塞的卡点，比如需要用户确认
         if (agentResponse.copilotRequests && agentResponse.copilotRequests.length > 0) {
           console.log("\n[Agent 请求 Copilot 用户协助/确认]，本 CLI 简化跳过...");
