@@ -2,6 +2,9 @@ import 'dotenv/config';
 import * as readline from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
 import { useAgent, removeAgent } from "./use-agent.js";
+import { metricsSdk } from './agent-core/trace.js';
+
+metricsSdk.start();
 
 async function main() {
   const userId = "cli-user"; // 终端版只有一个用户
