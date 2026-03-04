@@ -154,7 +154,7 @@ export class AgentLoop {
       model: this.options.model || models.compactor,
       messages: modelMessages,
       tools: this.toolDefs,
-      ...(this.options.abortSignal ? {abortSignal: this.options.abortSignal} : {}),
+      ...(this.options.abortSignal ? { abortSignal: this.options.abortSignal } : {}),
       experimental_telemetry: this.options.telemetry || { isEnabled: false }
       // {
       //   isEnabled: true,
@@ -245,7 +245,8 @@ export class AgentLoop {
       }
   > {
     const input = part.input;
-    if (!this.toolExecutors[part.toolName]) {
+    const executor = this.toolExecutors[part.toolName];
+    if (!executor) {
       throw new Error(`Tool executor not found for: ${part.toolName}`);
     }
 
@@ -256,7 +257,7 @@ export class AgentLoop {
     };
 
     try {
-      const result = await this.toolExecutors[part.toolName](
+      const result = await executor(
         input,
         options,
         copilotResponse,
