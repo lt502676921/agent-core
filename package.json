@@ -2,6 +2,7 @@
   "name": "agent-core",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,5 +12,12 @@
   "description": "",
   "devDependencies": {
     "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@ai-sdk/openai-compatible": "^2.0.33",
+    "@opentelemetry/auto-instrumentations-node": "^0.70.1",
+    "@opentelemetry/sdk-node": "^0.213.0",
+    "ai": "^6.0.111",
+    "langfuse-vercel": "^3.38.6"
   }
 }
