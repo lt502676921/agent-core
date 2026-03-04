@@ -17,12 +17,6 @@ import type {
   ToolExecutor,
 } from "./types.js";
 
-const randomSessionId = () => {
-  return Math.random().toString(36).slice(2, 10);
-};
-
-const sessionId = randomSessionId();
-
 export class AgentLoop {
   private options: AgentLoopOptions;
   private context: Context;
@@ -147,22 +141,11 @@ export class AgentLoop {
 
     const { response, toolCalls, finishReason } = await generateText({
       system: this.options.systemInstruction || 'You are a helpful assistant.',
-      // SYSTEM_WORKFLOW({
-      //   currentMemory: this.options.memory?.provideMemory() || "",
-      //   skillsPrompt: this.options.skillsPrompt || "",
-      // }),
       model: this.options.model || models.compactor,
       messages: modelMessages,
       tools: this.toolDefs,
       ...(this.options.abortSignal ? { abortSignal: this.options.abortSignal } : {}),
       experimental_telemetry: this.options.telemetry || { isEnabled: false }
-      // {
-      //   isEnabled: true,
-      //   functionId: "neu-translator-cli",
-      //   metadata: {
-      //     sessionId: `cli-${sessionId}`,
-      //   },
-      // },
     });
 
     if (!response.messages.length) {

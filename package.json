@@ -18,6 +18,7 @@
     "@opentelemetry/auto-instrumentations-node": "^0.70.1",
     "@opentelemetry/sdk-node": "^0.213.0",
     "ai": "^6.0.111",
+    "dotenv": "^17.3.1",
     "langfuse-vercel": "^3.38.6"
   }
 }

@@ -3,7 +3,7 @@ export const SYSTEM_WORKFLOW = ({
   skillsPrompt,
 }: {
   currentMemory: string;
-  skillsPrompt: string;
+  skillsPrompt?: string;
 }) => `You are a professional assistant.
 
 # Tone and style

@@ -18,6 +18,7 @@ export type AgentLoopOptions = {
     functionId: string;
     metadata: {
       sessionId: string;
+      userId?: string;
     },
   };
   abortSignal?: AbortSignal;
