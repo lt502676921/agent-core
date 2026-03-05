@@ -21,6 +21,7 @@
     "ai": "^6.0.111",
     "dotenv": "^17.3.1",
     "exa-js": "^2.7.0",
-    "langfuse-vercel": "^3.38.6"
+    "langfuse-vercel": "^3.38.6",
+    "mem0ai": "^2.2.4"
   }
 }

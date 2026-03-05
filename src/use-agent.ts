@@ -1,3 +1,4 @@
+import { MemoryClient } from 'mem0ai';
 import { LangfuseClient } from '@langfuse/client';
 import { AgentLoop, type AgentLoopOptions } from './agent-core/index.js';
 import { models } from './llm.js';
@@ -7,6 +8,8 @@ import { randomSessionId } from './utils.js';
 import { webSearch, webSearchExecutor } from './tools/web-search.js';
 
 export const langfuseClient = new LangfuseClient();
+
+export const mem0Client = new MemoryClient({ apiKey: process.env.MEM0_API_KEY! });
 
 const toolDefs: AgentLoopOptions['toolDefs'] = {
   thinking: thinkingTool,
@@ -50,6 +53,10 @@ ${skillsPrompt}`
 
 export const mockGetMemory = async (userId: string) => {
   // 从 mem0 获取 memory
+  // const memoryResults = await mem0Client.search(searchQuery, {
+  //   user_id: userId,
+  // });
+
   return '';
 };
 // ===============================================
