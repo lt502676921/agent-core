@@ -1,9 +1,12 @@
+import { LangfuseClient } from '@langfuse/client';
 import { AgentLoop, type AgentLoopOptions } from './agent-core/index.js';
 import { models } from './llm.js';
 import { SYSTEM_WORKFLOW } from './prompts/system.js';
 import { thinkingExecutor, thinkingTool } from './tools/thinking-tool.js';
 import { randomSessionId } from './utils.js';
 import { webSearch, webSearchExecutor } from './tools/web-search.js';
+
+export const langfuseClient = new LangfuseClient();
 
 const toolDefs: AgentLoopOptions['toolDefs'] = {
   thinking: thinkingTool,
@@ -16,11 +19,33 @@ const toolExecutors: AgentLoopOptions['toolExecutors'] = {
 };
 
 // ====== Mock 获取 System 和 Memory 的方法 ======
-export const mockGetSystemPrompt = async (memory: string) => {
-  // 从 prompt management 获取 prompt
-  return SYSTEM_WORKFLOW({
-    currentMemory: memory,
-  });
+export const getSystemInstruction = async (memory: string, skillsPrompt: string | null) => {
+  let systemInstruction = SYSTEM_WORKFLOW({ currentMemory: memory });
+
+  try {
+    // 从 prompt management 获取 prompt
+    const prompt = await langfuseClient.prompt.get('Chloe', { type: 'text' });
+
+    systemInstruction = prompt.compile({
+      memory: `${
+        memory
+          ? `# User preferences
+
+The following preferences were emphasized in prior interactions; please follow them:
+${memory}`
+          : ''
+      }`,
+      skillsPrompt: `${
+        skillsPrompt
+          ? `# Available skills
+The following skills are available to you for use during this session:
+${skillsPrompt}`
+          : ''
+      }`,
+    });
+  } catch (error) {}
+
+  return systemInstruction;
 };
 
 export const mockGetMemory = async (userId: string) => {
@@ -55,7 +80,7 @@ export const useAgent = async (userId: string): Promise<UserSession> => {
   const abortController = new AbortController();
   const memory = await mockGetMemory(userId);
 
-  const systemInstruction = await mockGetSystemPrompt(memory);
+  const systemInstruction = await getSystemInstruction(memory, null);
 
   const agentLoop = new AgentLoop({
     systemInstruction,
